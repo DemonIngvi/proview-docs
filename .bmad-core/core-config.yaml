@@ -1,0 +1,25 @@
+# BMAD Method project configuration: tells BMAD agents (PM, Architect, SM,
+# Dev, QA) where this project's artifacts live.
+markdownExploder: true
+prd:
+  prdFile: docs/prd.md
+  prdVersion: v4
+  prdSharded: false
+  epicFilePattern: epic-{n}*.md
+architecture:
+  architectureFile: docs/architecture.md
+  architectureVersion: v4
+  architectureSharded: false
+customTechnicalDocuments:
+  - docs/adr/README.md
+  - docs/front-end-spec.md
+  - docs/qa/test-strategy.md
+  - docs/runbooks/install.md
+  - docs/runbooks/operations.md
+devLoadAlwaysFiles:
+  - docs/architecture.md
+devDebugLog: .ai/debug-log.md
+devStoryLocation: docs/stories
+qa:
+  qaLocation: docs/qa
+slashPrefix: BMad
