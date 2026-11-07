@@ -28,6 +28,8 @@
 | [proview-web](https://github.com/DemonIngvi/proview-web) | демо-страница и SDK |
 | [proview-deploy](https://github.com/DemonIngvi/proview-deploy) | compose, Helm, e2e, chaos, нагрузка |
 
+HTML-версия с поиском, схемами, тёмной темой и автоматическими кросс-ссылками: `python tools/build_site.py` → `site/index.html` (нужен пакет `markdown`).
+
 ADR и истории генерируются из `tools/adr_data.py` и `tools/gen_stories.py` (`python tools/gen_adr.py && python tools/gen_stories.py`). Правьте данные, а не сгенерированные файлы.
 
 Лицензия: Apache-2.0.
