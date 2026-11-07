@@ -1,0 +1,47 @@
+name: pages
+
+# Builds the HTML documentation site (tools/build_site.py) and publishes it
+# to GitHub Pages on every change to the docs or the generator.
+on:
+  push:
+    branches: [main]
+    paths: ["docs/**", "tools/**", ".github/workflows/pages.yml"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with: { python-version: "3.12" }
+      - name: Install generator dependency
+        run: pip install markdown==3.11
+      - name: Check generated ADRs and stories are up to date
+        run: |
+          python tools/gen_adr.py && python tools/gen_stories.py
+          git diff --exit-code -- docs/ || { echo "::error::docs/adr or docs/stories differ from tools/*.py data — regenerate and commit"; exit 1; }
+      - name: Build site
+        run: python tools/build_site.py
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v4
+        with: { path: site }
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
